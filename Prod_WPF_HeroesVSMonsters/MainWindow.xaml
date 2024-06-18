@@ -14,8 +14,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Image HorizontalAlignment="Left" Height="810" VerticalAlignment="Top" Width="1462" Grid.ColumnSpan="2" Source="img/Fond.png" Stretch="Fill"/>
-
         <Border Name="Border1" Background="#3A9D23" Grid.Column="0" Width="1020" Height="700">
             <Canvas Name="Map">
                 <Canvas Name="Shop" Width="48" Height="45" Background="#3A9D23" Canvas.Left="10" Canvas.Top="5" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -97,8 +95,15 @@
             </Canvas>
         </Border>
 
+        <Image Width="100" Name="Buissons1" Source="\img\buisson2.gif" Margin="138,440,842,304"/>
+        <Image Width="100" Name="Buissons2" Source="\img\buisson2.gif" Margin="880,642,100,102"/>
+        <Image Width="100" Name="Buissons3" Source="\img\buisson2.gif" Margin="713,397,267,347"/>
+        <Image Width="100" Name="Buissons4" Source="\img\buisson2.gif" Margin="686,128,294,616"/>
+        <Image Width="100" Name="Buissons5" Source="\img\buisson2.gif" Margin="387,617,593,127"/>
+        <Image Width="100" Name="Buissons6" Source="\img\buisson2.gif" Margin="249,275,731,469"/>
+
         <!--<gif:AnimationBehavior.SourceUri>
-            C:\Users\Student\source\repos\heros vs monstre\HeroesVSMonsters\img\marine-capela-buisson2.gif
+            pack://application:,,,/Prod_WPF_HeroesVSMonsters;component/img/marine-capela-buisson2.gif
         </gif:AnimationBehavior.SourceUri>-->
 
         <Grid Grid.Column="1">
@@ -109,9 +114,8 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border Margin="10, 20, 20, 10" Background="#F0F0F0" Grid.Row="0">
-                <Image Source="img/32f10621-3bd3-4179-92b0-bacc906c4f3c.png" Stretch="Fill"/>
-            </Border>
+            <Border Margin="10, 20, 20, 10" Background="#F0F0F0" Grid.Row="0"></Border>
+
             <Border Margin="10, 10, 20, 10" Background="#F0F0F0" Grid.Row="1">
                 <StackPanel VerticalAlignment="Center">
                     <TextBlock Text="Nom :" FontSize="14" FontWeight="Bold" />

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "NFPydafUBu33UvnRaWl05LgpcN5oZk/FqtGAIwKuumhiRp8mlR6iIqICfXEfeBW89dzyOrQes7+v5yrwzWP3Zw==",
+  "dgSpecHash": "o01/ARMZ8HZek5pJs3TNDFESQbgqHOBd0MI+ZkigOBA5ZyQoDYwSug176w5COe4BsbM/soHjU68BCX1xnDUCAQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Student\\source\\repos\\Prod_WPF_HeroesVSMonsters\\Prod_WPF_HeroesVSMonsters\\Prod_WPF_HeroesVSMonsters.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Student\\.nuget\\packages\\wpfanimatedgif\\2.0.2\\wpfanimatedgif.2.0.2.nupkg.sha512"
+  ],
   "logs": []
 }
