@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Numerics;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Windows;
@@ -24,11 +25,12 @@ namespace HeroesVSMonsters
 {
     public partial class MainWindow : Window
     {
+        #region INITIALISATION 
         public int CurrentLevel { get; set; } = 1;
 
         public List<Rectangle> Buissons { get; set; } = new List<Rectangle>();
 
-        public Heros Hero { get; set; } = new Heros("Arthur", 10, 5, 100, 0, 0, 0);
+        public Heros Hero { get; set; } = new Heros("Arthur", 12, 3, 115, 0, 0, 0);
 
         public List<Monstre> Monstres { get; set; } =
         [
@@ -38,6 +40,10 @@ namespace HeroesVSMonsters
         ];
 
         public Dictionary<Monstre, Rectangle> MonstreRectangles { get; set; } = new Dictionary<Monstre, Rectangle>();
+        #endregion
+
+        private GameImage GoldImage;
+        private GameImage CuirImage;
 
         public MainWindow()
         {
@@ -47,7 +53,19 @@ namespace HeroesVSMonsters
 
             CreationMontres(CurrentLevel);
             InitializeBuissons();
+
+            #region IMAGES
+            GoldImage = new GameImage("img/gold.png", 300, 300, 350, 200);
+            Map.Children.Add(GoldImage.ImageControl);
+            GoldImage.Hide();
+
+            CuirImage = new GameImage("img/Cuir.png", 300, 300, 350, 200);
+            Map.Children.Add(CuirImage.ImageControl);
+            GoldImage.Hide();
+            #endregion 
         }
+
+        #region JEU
 
         #region MONSTRE
         public void MortMonstre(Monstre monstre)
@@ -64,13 +82,13 @@ namespace HeroesVSMonsters
             Random random = new Random();
             for (int i = 0; i < level + 2; i++)
             {
-                Monstre monst = (i % 3 == 0) ? new Orc("Orc", 8 + level, 3 + level, 80 + (level * 10), 1) :
-                                (i % 3 == 1) ? new Loup("Loup", 7 + level, 7 + level, 50 + (level * 10), 1) :
-                                new Dragonnet("Dragonnet", 8 + level, 4 + level, 90 + (level * 10), 1);
+                Monstre monst = (i % 3 == 0) ? new Orc("Orc", 8 + (level * 3), 3 + (level * 2), 80 + (level * 10), 1) :
+                                (i % 3 == 1) ? new Loup("Loup", 7 + (level * 2), 7 + (level * 3), 50 + (level * 10), 1) :
+                                new Dragonnet("Dragonnet", 8 + (level * 3), 4 + (level * 3), 90 + (level * 10), 1);
 
                 Rectangle rect = new Rectangle { Width = 20, Height = 20 };
-                double left = random.Next(0, (int)(1020 - rect.Width));
-                double top = random.Next(0, (int)(700 - rect.Height));
+                double left = random.Next(10, (int)(1010 - rect.Width));
+                double top = random.Next(10, (int)(690 - rect.Height));
 
                 Canvas.SetLeft(rect, left);
                 Canvas.SetTop(rect, top);
@@ -83,6 +101,7 @@ namespace HeroesVSMonsters
                     _ => new SolidColorBrush(Colors.Black)
                 };
 
+                Canvas.SetZIndex(rect, 2);
                 Map.Children.Add(rect);
                 MonstreRectangles[monst] = rect;
             }
@@ -155,6 +174,17 @@ namespace HeroesVSMonsters
                     break;
             }
 
+            #region ImageVisible
+            if (e.Key == Key.Space && GoldImage.IsVisible)
+            {
+                GoldImage.Hide();
+            }
+            if (e.Key == Key.Space && CuirImage.IsVisible)
+            {
+                CuirImage.Hide();
+            }
+            #endregion
+
             if (!Collision(newX, newY))
             {
                 if (!CollisionMonstre(newX, newY))
@@ -207,19 +237,19 @@ namespace HeroesVSMonsters
         #region BUISSONS
         public void InitializeBuissons()
         {
-            Buissons.Add(CreateBuisson(134, 402, 842, 304));
-            Buissons.Add(CreateBuisson(875, 604, 100, 102));
-            Buissons.Add(CreateBuisson(681, 91, 294, 616));
-            Buissons.Add(CreateBuisson(708, 360, 267, 347));
-            Buissons.Add(CreateBuisson(383, 578, 593, 127));
-            Buissons.Add(CreateBuisson(245, 238, 731, 469));
+            Buissons.Add(CreateBuisson(134, 402, 842, 304, 0));
+            Buissons.Add(CreateBuisson(875, 604, 100, 102, 0));
+            Buissons.Add(CreateBuisson(681, 91, 294, 616, 0));
+            Buissons.Add(CreateBuisson(708, 360, 267, 347, 0));
+            Buissons.Add(CreateBuisson(383, 578, 593, 127, 0));
+            Buissons.Add(CreateBuisson(245, 238, 731, 469, 0));
 
             foreach (var buisson in Buissons)
             {
                 Map.Children.Add(buisson);
             }
         }
-        public Rectangle CreateBuisson(int left, int top, int right, int bottom)
+        public Rectangle CreateBuisson(int left, int top, int right, int bottom, int zIndex)
         {
             var color = Color.FromRgb(0x3A, 0x9D, 0x23);
 
@@ -227,13 +257,13 @@ namespace HeroesVSMonsters
             {
                 Width = 50,
                 Height = 30,
-                Fill = new SolidColorBrush(color),
-                
+                Fill = new SolidColorBrush(color)
             };
 
             
             Canvas.SetLeft(rect, left);
             Canvas.SetTop(rect, top);
+            Canvas.SetZIndex(rect, zIndex);
 
             return rect;
         }
@@ -248,6 +278,9 @@ namespace HeroesVSMonsters
             {
                 if (EnCollision(playerRect, buisson))
                 {
+                    //ShopWindow shop = new ShopWindow();
+                    //shop.Show(); POUR LE SHOP
+
                     Random random = new Random();
                     int chance = random.Next(1, 101);
                     if (chance < 15)
@@ -280,26 +313,25 @@ namespace HeroesVSMonsters
             {
                 Hero.Gold += 5;
                 Hero.Pdv += 0;
-                MessageBox.Show("Vous avez trouvé 5 Gold !");
+                GoldImage.Show();
             }
             else if (chance > 33 && chance < 66)
             {
                 Hero.Cuir += 5;
                 Hero.Pdv += 0;
-                MessageBox.Show("Vous avez trouvé 5 Cuir !");
+                CuirImage.Show();
             }
             else if (chance > 66)
             {
                 Hero.Pdv += 20;
                 MessageBox.Show("Vous vous êtes soignée de 20 points de vie !");
             }
-            
         }
         #endregion
 
+        #region COMBAT
         private void StartCombat(Heros hero, Monstre monstre)
         {
-
             MessageBox.Show($"Combat lancé entre {hero.Name} et {monstre.Race}!\nPoint de vie : {monstre.Pdv}\nForce : {monstre.For}\nEndurence : {monstre.End}");
 
             while (monstre.Pdv > 0)
@@ -311,10 +343,25 @@ namespace HeroesVSMonsters
             if (monstre.Pdv == 0)
             {
                 MortMonstre(monstre);
-                Hero.For += 1;
-                Hero.End += 1;
-                Hero.Pdv += 15;
-                MessageBox.Show($"Tu as gagné\n+1 Force, +1 Endurence et tu as été soigné de 15hp.");
+                Random random = new Random();
+                int chance = random.Next(1, 101);
+                if (chance <= 35)
+                {
+                    Hero.For += 1;
+                    Hero.End += 1;
+                    Hero.Pdv += 15;
+                    MessageBox.Show($"Tu as gagné\n+1 Force, +1 Endurence et tu as été soigné de 15hp.");
+                }
+                else if (chance > 35 && chance <= 50)
+                {
+                    Hero.Pdv += 25;
+                    MessageBox.Show($"Tu as été soigné de 25hp.");
+                }
+                else
+                {
+                    Hero.Pdv += 15;
+                    MessageBox.Show($"Tu as été soigné de 15hp.");
+                }
                 CheckLevel();
             }
             else if (Hero.Pdv <= 0)
@@ -323,5 +370,8 @@ namespace HeroesVSMonsters
             }
             Hero.RecevoirRessourcesDe(monstre);
         }
+        #endregion
+
+        #endregion
     }
 }

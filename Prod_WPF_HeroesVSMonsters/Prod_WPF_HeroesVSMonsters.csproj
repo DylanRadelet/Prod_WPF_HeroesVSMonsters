@@ -10,14 +10,14 @@
 
   <ItemGroup>
     <None Remove="img\buisson2.gif" />
-    <None Remove="img\buisson2.png" />
+    <None Remove="img\gold.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="img\buisson2.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="img\buisson2.png">
+    <Content Include="img\gold.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

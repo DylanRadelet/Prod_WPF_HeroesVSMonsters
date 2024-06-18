@@ -13,7 +13,7 @@
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
+       
         <Border Name="Border1" Background="#3A9D23" Grid.Column="0" Width="1020" Height="700">
             <Canvas Name="Map">
                 <Canvas Name="Shop" Width="48" Height="45" Background="#3A9D23" Canvas.Left="10" Canvas.Top="5" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -102,13 +102,8 @@
         <Image Width="100" Name="Buissons5" Source="\img\buisson2.gif" Margin="387,617,593,127"/>
         <Image Width="100" Name="Buissons6" Source="\img\buisson2.gif" Margin="249,275,731,469"/>
 
-        <!--<gif:AnimationBehavior.SourceUri>
-            pack://application:,,,/Prod_WPF_HeroesVSMonsters;component/img/marine-capela-buisson2.gif
-        </gif:AnimationBehavior.SourceUri>-->
-
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
