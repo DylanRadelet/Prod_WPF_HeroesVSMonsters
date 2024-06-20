@@ -26,24 +26,28 @@ namespace HeroesVSMonsters
     public partial class MainWindow : Window
     {
         #region INITIALISATION 
+
         public int CurrentLevel { get; set; } = 1;
 
         public List<Rectangle> Buissons { get; set; } = new List<Rectangle>();
 
-        public Heros Hero { get; set; } = new Heros("Arthur", 12, 3, 115, 0, 0, 0);
+        public Heros Hero { get; set; } = new Heros("Arthur", 11, 5, 95, 0, 0, 0);
 
         public List<Monstre> Monstres { get; set; } =
         [
-            new Orc("Orc", 8, 3, 80, 1),
-            new Loup("Loup", 7,7,50,1),
-            new Dragonnet("Dragonnet", 8,4,90,1)
+            new Orc("Orc", 8, 3, 50, 1),
+            new Loup("Loup", 5,5,40,1),
+            new Dragonnet("Dragonnet", 8,4,60,1)
         ];
 
         public Dictionary<Monstre, Rectangle> MonstreRectangles { get; set; } = new Dictionary<Monstre, Rectangle>();
+        
         #endregion
 
         private GameImage GoldImage;
         private GameImage CuirImage;
+
+        int Achat = 2;
 
         public MainWindow()
         {
@@ -82,9 +86,9 @@ namespace HeroesVSMonsters
             Random random = new Random();
             for (int i = 0; i < level + 2; i++)
             {
-                Monstre monst = (i % 3 == 0) ? new Orc("Orc", 8 + (level * 3), 3 + (level * 2), 80 + (level * 10), 1) :
-                                (i % 3 == 1) ? new Loup("Loup", 7 + (level * 2), 7 + (level * 3), 50 + (level * 10), 1) :
-                                new Dragonnet("Dragonnet", 8 + (level * 3), 4 + (level * 3), 90 + (level * 10), 1);
+                Monstre monst = (i % 3 == 0) ? new Orc("Orc", 8 + level, 3 + level, 80 + (level * 10), 1) :
+                                (i % 3 == 1) ? new Loup("Loup", 7 + level, 7 + level, 50 + (level * 10), 1) :
+                                new Dragonnet("Dragonnet", 8 + level, 4 + level, 90 + (level * 10), 1);
 
                 Rectangle rect = new Rectangle { Width = 20, Height = 20 };
                 double left = random.Next(10, (int)(1010 - rect.Width));
@@ -117,7 +121,9 @@ namespace HeroesVSMonsters
             {
                 if (EnCollision(playerRect, pair.Value))
                 {
+                    Hero.Pdv += 0;
                     StartCombat(Hero, pair.Key);
+                    Hero.Pdv += 0;
                     return true;
                 }
             }
@@ -146,6 +152,7 @@ namespace HeroesVSMonsters
             if (newX < 5 || newX + Player.Width > Border1.ActualWidth - 5 ||
                 newY < 5 || newY + Player.Height > Border1.ActualHeight - 5)
             {
+                Hero.Pdv += 0;
                 return true;
             }
             return false;
@@ -177,10 +184,12 @@ namespace HeroesVSMonsters
             #region ImageVisible
             if (e.Key == Key.Space && GoldImage.IsVisible)
             {
+                Hero.Pdv += 0;
                 GoldImage.Hide();
             }
             if (e.Key == Key.Space && CuirImage.IsVisible)
             {
+                Hero.Pdv += 0;
                 CuirImage.Hide();
             }
             #endregion
@@ -191,10 +200,13 @@ namespace HeroesVSMonsters
                 {
                     if (!CheckCollisionWithBuissons(newX, newY))
                     {
-                        Canvas.SetLeft(Player, newX);
-                        Canvas.SetTop(Player, newY);
+                        if (!ShopCollision(newX, newY))
+                        {
+                            Hero.Pdv += 0;
+                            Canvas.SetLeft(Player, newX);
+                            Canvas.SetTop(Player, newY);
+                        }
                     }
-                    
                 }
             }
         }
@@ -206,31 +218,56 @@ namespace HeroesVSMonsters
             if (MonstreRectangles.Count == 0)
             {
                 CurrentLevel++;
+                Achat = 2;
                 CreationMontres(CurrentLevel);
                 MessageBox.Show($"Bienvenue au niveau {CurrentLevel}!");
                 if (CurrentLevel < 3)
                 {
-                    Hero.Gold += 10;
-                    Hero.Cuir += 10;
-                    Hero.Pdv = CurrentLevel * 25;
+                    Hero.Gold += 10 + CurrentLevel;
+                    Hero.Cuir += 10 + CurrentLevel;
+                    Hero.Pdv += CurrentLevel * 25;
                 }
                 else if (CurrentLevel > 3 && CurrentLevel < 6)
                 {
-                    Hero.Gold += 15;
-                    Hero.Cuir += 15;
-                    Hero.Pdv = CurrentLevel * 15;
+                    Hero.Gold += 15 + CurrentLevel;
+                    Hero.Cuir += 15 + CurrentLevel;
+                    Hero.Pdv += CurrentLevel * 15;
                 }
                 else if (CurrentLevel > 6 && CurrentLevel < 9)
                 {
-                    Hero.Gold += 20;
-                    Hero.Cuir += 20;
-                    Hero.Pdv = CurrentLevel * 5;
+                    Hero.Gold += 20 + CurrentLevel;
+                    Hero.Cuir += 20 + CurrentLevel;
+                    Hero.Pdv += CurrentLevel * 10;
                 }
                 else
                 {
 
                 }
             }
+        }
+        #endregion
+
+        #region SHOP
+        public bool ShopCollision(double newX, double newY)
+        {
+            Rectangle playerRect = new Rectangle { Width = Player.Width, Height = Player.Height };
+            Canvas.SetLeft(playerRect, newX);
+            Canvas.SetTop(playerRect, newY);
+
+            Rectangle shopRect = new Rectangle { Width = 48, Height = 45 };
+            Canvas.SetLeft(shopRect, 10);
+            Canvas.SetTop(shopRect, 5);
+
+            
+
+            if (EnCollision(playerRect, shopRect))
+            {
+                Hero.Pdv += 0;
+                ShopWindow Shop = new ShopWindow(Hero, CurrentLevel, Achat);
+                Shop.Show();
+                return true;
+            }
+            return false;
         }
         #endregion
 
@@ -278,9 +315,7 @@ namespace HeroesVSMonsters
             {
                 if (EnCollision(playerRect, buisson))
                 {
-                    //ShopWindow shop = new ShopWindow();
-                    //shop.Show(); POUR LE SHOP
-
+                    Hero.Pdv += 0;
                     Random random = new Random();
                     int chance = random.Next(1, 101);
                     if (chance < 15)
@@ -345,14 +380,12 @@ namespace HeroesVSMonsters
                 MortMonstre(monstre);
                 Random random = new Random();
                 int chance = random.Next(1, 101);
-                if (chance <= 35)
+                if (chance <= 25)
                 {
-                    Hero.For += 1;
-                    Hero.End += 1;
-                    Hero.Pdv += 15;
-                    MessageBox.Show($"Tu as gagné\n+1 Force, +1 Endurence et tu as été soigné de 15hp.");
+                    Hero.Pdv += 35;
+                    MessageBox.Show($"Tu as été soigné de 35hp.");
                 }
-                else if (chance > 35 && chance <= 50)
+                else if (chance > 25 && chance <= 50)
                 {
                     Hero.Pdv += 25;
                     MessageBox.Show($"Tu as été soigné de 25hp.");
@@ -369,6 +402,7 @@ namespace HeroesVSMonsters
                 MessageBox.Show($"GAME OVER");
             }
             Hero.RecevoirRessourcesDe(monstre);
+            Hero.Pdv += 0;
         }
         #endregion
 

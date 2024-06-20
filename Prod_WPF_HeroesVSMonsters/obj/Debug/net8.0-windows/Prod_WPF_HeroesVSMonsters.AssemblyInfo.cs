@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Prod_WPF_HeroesVSMonsters")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3322e64279cf8becf2efa3a2c803d70a3fb524e8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+19d78acc3f8ab14a9bdeffeac441f72b697f5393")]
 [assembly: System.Reflection.AssemblyProductAttribute("Prod_WPF_HeroesVSMonsters")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Prod_WPF_HeroesVSMonsters")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

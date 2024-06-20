@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         xmlns:local="clr-namespace:HeroesVSMonsters"
         mc:Ignorable="d"
         Title="MainWindow" Height="810" Width="1440">
@@ -95,12 +96,12 @@
             </Canvas>
         </Border>
 
-        <Image Width="100" Name="Buissons1" Source="\img\buisson2.gif" Margin="138,440,842,304"/>
-        <Image Width="100" Name="Buissons2" Source="\img\buisson2.gif" Margin="880,642,100,102"/>
-        <Image Width="100" Name="Buissons3" Source="\img\buisson2.gif" Margin="713,397,267,347"/>
-        <Image Width="100" Name="Buissons4" Source="\img\buisson2.gif" Margin="686,128,294,616"/>
-        <Image Width="100" Name="Buissons5" Source="\img\buisson2.gif" Margin="387,617,593,127"/>
-        <Image Width="100" Name="Buissons6" Source="\img\buisson2.gif" Margin="249,275,731,469"/>
+        <Image Width="100" Name="Buissons1" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="138,440,842,304"/>
+        <Image Width="100" Name="Buissons2" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="880,642,100,102"/>
+        <Image Width="100" Name="Buissons3" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="713,397,267,347"/>
+        <Image Width="100" Name="Buissons4" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="686,128,294,616"/>
+        <Image Width="100" Name="Buissons5" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="387,617,593,127"/>
+        <Image Width="100" Name="Buissons6" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="249,275,731,469"/>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>

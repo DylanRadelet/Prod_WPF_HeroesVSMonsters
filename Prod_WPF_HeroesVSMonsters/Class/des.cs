@@ -16,8 +16,6 @@ namespace Heroes_VS_Monsters.Class
         private Random random;
         #endregion
 
-
-
         #region Fonction
         //================================================================================================
         // ====> FONCTION

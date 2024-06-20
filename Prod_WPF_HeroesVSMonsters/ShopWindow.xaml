@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="ShopWindow" Height="450" Width="800">
     <Grid>
-        
+        <TextBox TextAlignment="Center" HorizontalAlignment="Left" Margin="106,179,0,0" TextWrapping="Wrap" Text="Point de vie" VerticalAlignment="Top" Width="80"/>
+        <Button Click="AchatVie" Content="Acheter" HorizontalAlignment="Left" Margin="124,214,0,0" VerticalAlignment="Top"/>
+        <Label Content="{Binding Prix}" HorizontalAlignment="Left" Margin="124,250,0,0" VerticalAlignment="Top" Width="45"/>
+
+        <TextBox TextAlignment="Center" HorizontalAlignment="Center" Margin="0,179,0,0" TextWrapping="Wrap" Text="Force" VerticalAlignment="Top" Width="80" TextChanged="TextBox_TextChanged"/>
+        <Button Click="AchatForce" Content="Acheter" HorizontalAlignment="Center" Margin="0,214,0,0" VerticalAlignment="Top"/>
+        <Label Content="{Binding Prix}" HorizontalAlignment="Left" Margin="595,255,0,0" VerticalAlignment="Top" Width="46"/>
+
+        <TextBox TextAlignment="Center" HorizontalAlignment="Left" Margin="578,179,0,0" TextWrapping="Wrap" Text="Endurance" VerticalAlignment="Top" Width="80" TextChanged="TextBox_TextChanged_1"/>
+        <Button Click="AchatEndurance" Content="Acheter" HorizontalAlignment="Left" Margin="595,214,0,0" VerticalAlignment="Top"/>
+        <Label Content="{Binding Prix}" HorizontalAlignment="Center" Margin="0,255,0,0" VerticalAlignment="Top" Width="44"/>
     </Grid>
 </Window>
