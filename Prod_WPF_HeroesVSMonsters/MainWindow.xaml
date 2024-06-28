@@ -8,100 +8,39 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="810" Width="1440">
 
+    <Window.Resources>
+        <FontFamily x:Key="CustomFont">pack://application:,,,/Prod_WPF_HeroesVSMonsters;component/fonts/#Balgruf</FontFamily>
+    </Window.Resources>
+
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="C:\Users\Student\source\repos\Prod_WPF_HeroesVSMonsters\Prod_WPF_HeroesVSMonsters\img\Fond_0.png"/>
+        </Grid.Background>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-       
+
         <Border Name="Border1" Background="#3A9D23" Grid.Column="0" Width="1020" Height="700">
             <Canvas Name="Map">
-                <Canvas Name="Shop" Width="48" Height="45" Background="#3A9D23" Canvas.Left="10" Canvas.Top="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Rectangle Width="44" Height="34" Fill="#F0F1EA" Canvas.Top="11" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="2"/>
-                    <Rectangle Width="6" Height="6" Fill="#E62442" Canvas.Top="11" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="14"/>
-                    <Rectangle Width="6" Height="6" Fill="#E62442" Canvas.Top="11" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="26"/>
-                    <Rectangle Width="6" Height="6" Fill="#E62442" Canvas.Top="11" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="38"/>
-                    <Rectangle Width="6" Height="6" Fill="#E62442" Canvas.Top="11" Canvas.Left="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="18" Height="10" Fill="#38486B" Canvas.Top="25" Canvas.Left="8" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="#8A9AB7" Canvas.Top="25" Canvas.Left="19" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="7" Canvas.Left="2"/>
-                    <Rectangle Width="44" Height="2" Fill="black" Canvas.Left="2" Canvas.Top="5" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="44" Height="2" Fill="black" Canvas.Top="9" Canvas.Left="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="7" Canvas.Left="44" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="1" Height="2" Fill="black" Canvas.Top="9" Canvas.Left="45" HorizontalAlignment="Left" VerticalAlignment="Center"></Rectangle>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="11" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="13" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="11" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="46"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="13" Canvas.Left="46" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="46" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="2"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="4" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="8" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="12" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="16" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="18" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="22" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="28" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="32" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="34" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="36" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="38" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="40" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="42" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="17" Canvas.Left="44" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="24" Fill="black" Canvas.Top="19" Canvas.Left="2" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="42" Height="2" Fill="black" Canvas.Top="43" Canvas.Left="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="24" Fill="black" Canvas.Top="19" Canvas.Left="44" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="43" Canvas.Left="44" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="20" Height="2" Fill="black" Canvas.Top="23" Canvas.Left="6" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="10" Fill="black" Canvas.Top="25" Canvas.Left="6" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="20" Height="2" Fill="black" Canvas.Top="35" Canvas.Left="6" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="23" Canvas.Left="26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="10" Fill="black" Canvas.Top="25" Canvas.Left="26" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="35" Canvas.Left="26" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="20" Fill="black" Canvas.Top="23" Canvas.Left="30" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="23" Canvas.Left="32" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="23" Canvas.Left="34" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="23" Canvas.Left="36" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="23" Canvas.Left="38" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="20" Fill="black" Canvas.Top="23" Canvas.Left="40" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="40" Height="2" Fill="#DC2D2D" Canvas.Left="4" Canvas.Top="7" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="#8A9AB7" Canvas.Top="27" Canvas.Left="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="#8A9AB7" Canvas.Top="29" Canvas.Left="15" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="#8A9AB7" Canvas.Top="31" Canvas.Left="13" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="#8A9AB7" Canvas.Top="33" Canvas.Left="11" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="#8A9AB7" Canvas.Top="29" Canvas.Left="24" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="#8A9AB7" Canvas.Top="31" Canvas.Left="22" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="#8A9AB7" Canvas.Top="33" Canvas.Left="20" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="2" Fill="black" Canvas.Top="15" Canvas.Left="24" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="18" Fill="#A86F49" Canvas.Top="25" Canvas.Left="32" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                    <Rectangle Width="2" Height="18" Fill="#623B24" Canvas.Top="25" Canvas.Left="34" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="18" Fill="#A86F49" Canvas.Top="25" Canvas.Left="36" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="18" Fill="#623B24" Canvas.Top="25" Canvas.Left="38" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                    <Rectangle Width="2" Height="2" Fill="#ffd700" Canvas.Top="33" Canvas.Left="33" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Canvas Name="Shop" Width="130" Height="115" Background="#3A9D23" Canvas.Left="10" Canvas.Top="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image Width="144" Source="C:\Users\Student\source\repos\Prod_WPF_HeroesVSMonsters\Prod_WPF_HeroesVSMonsters\img\Shop.png" Height="120"/>
                 </Canvas>
                 <Rectangle Name="MurTop" Fill="Black" Width="{Binding ActualWidth, ElementName=Border1}" Height="5" Canvas.Left="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <Rectangle Name="MurBottom" Fill="Black"  Width="{Binding ActualWidth, ElementName=Border1}" Height="5" Canvas.Bottom="0" HorizontalAlignment="Left" VerticalAlignment="Center" />
                 <Rectangle Name="MurLeft" Fill="Black" Width="5" Height="{Binding ActualHeight, ElementName=Border1}" Canvas.Left="0" HorizontalAlignment="Center" VerticalAlignment="Top" />
                 <Rectangle Name="MurRight" Fill="Black" Width="5" Height="{Binding ActualHeight, ElementName=Border1}" Canvas.Right="0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Rectangle Name="Player" Fill="Blue" Width="20" Height="20" Canvas.Left="500" Canvas.Top="600" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="1"/>
+                <Image Name="Player" Width="33" Height="61" Canvas.Left="500" Canvas.Top="600"/>
+
+                <Image Width="80" Name="Buissons1" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Panel.ZIndex="2" Canvas.Left="134" Canvas.Top="402"/>
+                <Image Width="80" Name="Buissons2" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Panel.ZIndex="2" Canvas.Left="875" Canvas.Top="604"/>
+                <Image Width="80" Name="Buissons3" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Panel.ZIndex="2" Canvas.Left="708" Canvas.Top="359" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Image Width="80" Name="Buissons4" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Panel.ZIndex="2" Canvas.Left="681" Canvas.Top="90" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Image Width="80" Name="Buissons5" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Panel.ZIndex="2" Canvas.Left="383" Canvas.Top="577"/>
+                <Image Width="80" Name="Buissons6" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Panel.ZIndex="2" Canvas.Left="245" Canvas.Top="238"/>
             </Canvas>
         </Border>
-
-        <Image Width="100" Name="Buissons1" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="138,440,842,304"/>
-        <Image Width="100" Name="Buissons2" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="880,642,100,102"/>
-        <Image Width="100" Name="Buissons3" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="713,397,267,347"/>
-        <Image Width="100" Name="Buissons4" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="686,128,294,616"/>
-        <Image Width="100" Name="Buissons5" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="387,617,593,127"/>
-        <Image Width="100" Name="Buissons6" gif:ImageBehavior.AnimatedSource="\img\buisson2.gif" Margin="249,275,731,469"/>
 
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -110,26 +49,48 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border Margin="10, 20, 20, 10" Background="#F0F0F0" Grid.Row="0"></Border>
+            <Border Margin="10, 20, 20, 10" Grid.Row="0">
+                <Image Source="C:\Users\Student\source\repos\Prod_WPF_HeroesVSMonsters\Prod_WPF_HeroesVSMonsters\img\logo.png"/>
+            </Border>
 
-            <Border Margin="10, 10, 20, 10" Background="#F0F0F0" Grid.Row="1">
+            <Border Margin="10, 10, 20, 10" Grid.Row="1">
                 <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="Nom :" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Text="{Binding Name}" FontSize="14" />
-                    <TextBlock Text="Force :" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Text="{Binding For}" FontSize="14" />
-                    <TextBlock FontSize="14" FontWeight="Bold" ><Run Text="Endur"/><Run Language="fr-be" Text="a"/><Run Text="nce :"/></TextBlock>
-                    <TextBlock Text="{Binding End}" FontSize="14" />
-                    <TextBlock Text="HP :" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Text="{Binding Pdv}" FontSize="14" />
-                    <TextBlock Text="Gold :" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Text="{Binding Gold}" FontSize="14" />
-                    <TextBlock Text="Cuir :" FontSize="14" FontWeight="Bold" />
-                    <TextBlock Text="{Binding Cuir}" FontSize="14" />
+                    <TextBlock Padding="0,0,0,0" Text="Nom :" LineHeight="10" Height="30px" Foreground="#ffffff" FontSize="25" FontFamily="{StaticResource CustomFont}" FontWeight="Bold" />
+                    <TextBlock Text="{Binding Name}" LineHeight="10" Height="35px" Foreground="#ffffff" FontSize="30" FontFamily="{StaticResource CustomFont}" FontWeight="Bold"/>
+                    <TextBlock Padding="0,10,0,0" Text="Forces :" LineHeight="10" Height="40px" Foreground="#ffffff" FontSize="25" FontFamily="{StaticResource CustomFont}" FontWeight="Bold" />
+                    <TextBlock Text="{Binding For}" LineHeight="10" Height="35px" Foreground="#ffffff" FontSize="30" FontFamily="{StaticResource CustomFont}" FontWeight="Bold"/>
+                    <TextBlock Padding="0,10,0,0" Text="Endurances :" LineHeight="10" Height="40px" Foreground="#ffffff" FontSize="25" FontFamily="{StaticResource CustomFont}" FontWeight="Bold" />
+                    <TextBlock Text="{Binding End}" LineHeight="10" Height="40px" Foreground="#ffffff" FontSize="30" FontFamily="{StaticResource CustomFont}" FontWeight="Bold"/>
                 </StackPanel>
             </Border>
-            <Border Margin="10, 10, 20, 20" Background="#F0F0F0" Grid.Row="2"/>
+            <Border Margin="10, 10, 20, 20" Grid.Row="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
 
+                    <StackPanel Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="C:\Users\Student\source\repos\Prod_WPF_HeroesVSMonsters\Prod_WPF_HeroesVSMonsters\img\PointDeVie.png" Margin="0,0,0,5" Height="181"/>
+                        <TextBlock Foreground="#ffffff" FontWeight="Bold" Text="{Binding Pdv}" FontSize="30" FontFamily="{StaticResource CustomFont}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="C:\Users\Student\source\repos\Prod_WPF_HeroesVSMonsters\Prod_WPF_HeroesVSMonsters\img\gold.png" Margin="0,0,0,5" Height="181"/>
+                        <TextBlock Foreground="#ffffff" FontWeight="Bold" Text="{Binding Gold}" FontSize="30" FontFamily="{StaticResource CustomFont}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="C:\Users\Student\source\repos\Prod_WPF_HeroesVSMonsters\Prod_WPF_HeroesVSMonsters\img\cuir.png" Margin="0,0,0,5" Height="181"/>
+                        <TextBlock Foreground="#ffffff" FontWeight="Bold" Text="{Binding Cuir}" FontSize="30" FontFamily="{StaticResource CustomFont}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
         </Grid>
     </Grid>
 </Window>

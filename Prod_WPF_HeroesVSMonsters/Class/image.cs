@@ -1,7 +1,6 @@
-﻿using System.Windows.Controls; // Pour Image
-using System.Windows.Media.Imaging; // Pour BitmapImage
-using System.Windows; // Pour Visibility et Canvas
-using System;
+﻿using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Windows;
 
 public class GameImage
 {
@@ -12,14 +11,16 @@ public class GameImage
     public double Height { get; private set; }
     public double X { get; private set; }
     public double Y { get; private set; }
+    public int Index { get; private set; }
 
-    public GameImage(string sourcePath, double width, double height, double x, double y)
+    public GameImage(string sourcePath, double width, double height, double x, double y, int index)
     {
         SourcePath = sourcePath;
         Width = width;
         Height = height;
         X = x;
         Y = y;
+        Index = index;
         IsVisible = false;
         InitializeImage();
     }
@@ -30,12 +31,13 @@ public class GameImage
         {
             Width = Width,
             Height = Height,
-            Source = new BitmapImage(new Uri(SourcePath, UriKind.Relative)),
+            Source = new BitmapImage(new Uri(SourcePath, UriKind.RelativeOrAbsolute)),
             Visibility = Visibility.Hidden
         };
 
         Canvas.SetLeft(ImageControl, X);
         Canvas.SetTop(ImageControl, Y);
+        Canvas.SetZIndex(ImageControl, 1001);
     }
 
     public void Show()

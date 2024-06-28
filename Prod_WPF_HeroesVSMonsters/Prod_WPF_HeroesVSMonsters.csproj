@@ -9,11 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="fonts\Balgruf.otf" />
     <None Remove="img\buisson2.gif" />
     <None Remove="img\gold.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="fonts\Balgruf.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="img\buisson2.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
