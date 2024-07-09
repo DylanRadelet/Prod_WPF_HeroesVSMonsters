@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Heroes_VS_Monsters.Class;
 using Heroes_VS_Monsters.Class.Heros;
 using Heroes_VS_Monsters.Class.Monstre;
@@ -23,13 +24,13 @@ namespace HeroesVSMonsters
 
         public List<Rectangle> Buissons { get; set; } = new List<Rectangle>();
 
-        public Heros Hero { get; set; } = new Heros("Arthur", 11, 5, 95, 0, 0, 0);
+        public Heros Hero { get; set; } = new Heros("Arthur", 11, 6, 100, 0, 0, 0);
 
         public List<Monstre> Monstres { get; set; } = new List<Monstre>
         {
-            new Orc("Orc", 8, 3, 50, 1),
-            new Loup("Loup", 5, 5, 40, 1),
-            new Dragonnet("Dragonnet", 8, 4, 60, 1)
+            new Orc("Orc", 8, 2, 50, 1),
+            new Loup("Loup", 6, 4, 40, 1),
+            new Dragonnet("Dragonnet", 7, 3, 60, 1)
         };
 
         public Dictionary<Monstre, (Image, Rectangle)> MonstreRectangles { get; set; } = new Dictionary<Monstre, (Image, Rectangle)>();
@@ -49,10 +50,15 @@ namespace HeroesVSMonsters
         private BitmapImage orcImage;
         private BitmapImage loupImage;
         private BitmapImage dragonnetImage;
+        private BitmapImage bossImage;
 
         private int animationIndex = 0;
 
-        bool stop;
+        private int buissonsTraverses = 0;
+        private DispatcherTimer bossMoveTimer;
+        private const double BossMovementSpeed = 5;
+        public bool isPaused = false;
+        int countMessage = 0;
         #endregion
 
         public MainWindow()
@@ -95,7 +101,7 @@ namespace HeroesVSMonsters
             orcImage = new BitmapImage(new Uri("C:\\Users\\Student\\source\\repos\\Prod_WPF_HeroesVSMonsters\\Prod_WPF_HeroesVSMonsters\\img\\Personnage\\Monstre\\orc.png"));
             loupImage = new BitmapImage(new Uri("C:\\Users\\Student\\source\\repos\\Prod_WPF_HeroesVSMonsters\\Prod_WPF_HeroesVSMonsters\\img\\Personnage\\Monstre\\loup.png"));
             dragonnetImage = new BitmapImage(new Uri("C:\\Users\\Student\\source\\repos\\Prod_WPF_HeroesVSMonsters\\Prod_WPF_HeroesVSMonsters\\img\\Personnage\\Monstre\\dragon.png"));
-
+            bossImage = new BitmapImage(new Uri("C:\\Users\\Student\\source\\repos\\Prod_WPF_HeroesVSMonsters\\Prod_WPF_HeroesVSMonsters\\img\\Personnage\\Monstre\\Boss.png"));
             GoldImage = new GameImage("C:\\Users\\Student\\source\\repos\\Prod_WPF_HeroesVSMonsters\\Prod_WPF_HeroesVSMonsters\\img\\gold.png", 300, 400, 350, 150, 1001);
             Map.Children.Add(GoldImage.ImageControl);
             GoldImage.Hide();
@@ -111,16 +117,75 @@ namespace HeroesVSMonsters
             Canvas.SetZIndex(Player, 1000);
             #endregion
 
-            CreationMontres(CurrentLevel);
+            #region Boss
+            bossMoveTimer = new DispatcherTimer();
+            bossMoveTimer.Interval = TimeSpan.FromSeconds(0.05); // TimeSpan => Intérvalle de temps
+            bossMoveTimer.Tick += BossMove; // Tick => se produit à chaque unité de temps prédifinie dans => bossMoveTimer.Interval
+            bossMoveTimer.Start();
+            #endregion
+
+            if (CurrentLevel < 4)
+            {
+                CreationMontres(CurrentLevel);
+            }
+            else
+            {
+                if (CurrentLevel == 4)
+                {
+                    Hero.Gold += 1000;
+                    Hero.Cuir += 1000;
+                    Hero.Pdv += 500;
+                }
+
+                Achat = 100000;
+                MessageBox.Show($"Bienvenue au niveau {CurrentLevel}! Votre nombre d'achat dans la boutique est infini, ressourcez vous !");  
+            }
+            CheckAllBuissonsTraversed();
+
             InitializeBuissons();
         }
 
         #region JEU
 
         #region MONSTRE
+        private void BossMove(object sender, EventArgs e)
+        {
+            if (!isPaused)
+            {
+                foreach (var pair in MonstreRectangles)
+                {
+                    Monstre monstre = pair.Key;
+                    var img = pair.Value.Item1;
+                    var rect = pair.Value.Item2;
+
+                    double currentLeft = Canvas.GetLeft(img);
+                    double currentTop = Canvas.GetTop(img);
+                    double playerLeft = Canvas.GetLeft(Player);
+                    double playerTop = Canvas.GetTop(Player);
+
+                    double dx = playerLeft - currentLeft;
+                    double dy = playerTop - currentTop;
+
+                    double distance = Math.Sqrt(dx * dx + dy * dy); // Calcule la distance entre deux point 2D => Math.Sqrt => méthode qui calcule la racine carrée
+
+                    if (distance != 0)
+                    {
+                        dx /= distance;
+                        dy /= distance;
+                    }
+                     
+                    Canvas.SetLeft(img, currentLeft + dx * BossMovementSpeed);
+                    Canvas.SetTop(img, currentTop + dy * BossMovementSpeed);
+
+                    Canvas.SetLeft(rect, Canvas.GetLeft(img) + (img.Width - rect.Width) / 2);
+                    Canvas.SetTop(rect, Canvas.GetTop(img) + (img.Height - rect.Height) / 2);
+                }
+            }
+        }
+
         public void MortMonstre(Monstre monstre)
         {
-            if (MonstreRectangles.TryGetValue(monstre, out var pair))
+            if (MonstreRectangles.TryGetValue(monstre, out var pair)) // TryGetValue => méthode utilisé avec des dictionary pour tenter de récupérer les valeur associée à une clé spécifique
             {
                 Map.Children.Remove(pair.Item1);
                 Map.Children.Remove(pair.Item2);
@@ -131,12 +196,11 @@ namespace HeroesVSMonsters
         public void CreationMontres(int level)
         {
             Random random = new Random();
-            for (int i = 0; i < level + 2; i++)
-            {
-                Monstre monst = (i % 3 == 0) ? new Orc("Orc", 8 + level, 3 + level, 80 + (level * 10), 1) :
-                                (i % 3 == 1) ? new Loup("Loup", 7 + level, 7 + level, 50 + (level * 10), 1) :
-                                new Dragonnet("Dragonnet", 8 + level, 4 + level, 90 + (level * 10), 1);
+            int numberOfMonsters = level < 4 ? level + 2 : 1;
 
+            for (int i = 0; i < numberOfMonsters; i++)
+            {
+                Monstre monstre;
                 Image img = new Image();
                 Rectangle rect = new Rectangle
                 {
@@ -144,100 +208,128 @@ namespace HeroesVSMonsters
                     Fill = Brushes.Transparent
                 };
 
-                switch (monst.Race)
+                if (level < 4)
                 {
-                    case "Orc":
-                        img.Width = 75;
-                        img.Height = 75;
-                        img.Source = orcImage;
-                        rect.Width = 50;
-                        rect.Height = 50;
-                        break;
-                    case "Loup":
-                        img.Width = 50;
-                        img.Height = 50;
-                        img.Source = loupImage;
-                        rect.Width = 30;
-                        rect.Height = 30;
-                        break;
-                    case "Dragonnet":
-                        img.Width = 100;
-                        img.Height = 100;
-                        img.Source = dragonnetImage;
-                        rect.Width = 80;
-                        rect.Height = 80;
-                        break;
-                    default:
-                        img.Width = 50;
-                        img.Height = 50;
-                        rect.Width = 30;
-                        rect.Height = 30;
-                        break;
+                    monstre = (i % 3 == 0) ? new Orc("Orc", 8 + level, 3 + level, 80 + (level * 10), 1) : //if
+                              (i % 3 == 1) ? new Loup("Loup", 7 + level, 7 + level, 50 + (level * 10), 1) : //else if 
+                              new Dragonnet("Dragonnet", 8 + level, 4 + level, 90 + (level * 10), 1); //else
+                }
+                else
+                {
+                    monstre = new Orc("Boss", 1000, 5000, 20000, 1000);
                 }
 
-                double left, top;
-                bool collision;
+                ConfigureMonsterGraphics(monstre, img, rect);
 
-                do
+                PlaceMonsterOnMap(monstre, img, rect, random);
+            }
+        }
+
+        private void ConfigureMonsterGraphics(Monstre monstre, Image img, Rectangle rect)
+        {
+            switch (monstre.Race)
+            {
+                case "Orc":
+                    img.Width = 75;
+                    img.Height = 75;
+                    img.Source = orcImage;
+                    rect.Width = 50;
+                    rect.Height = 50;
+                    break;
+                case "Loup":
+                    img.Width = 50;
+                    img.Height = 50;
+                    img.Source = loupImage;
+                    rect.Width = 30;
+                    rect.Height = 30;
+                    break;
+                case "Dragonnet":
+                    img.Width = 100;
+                    img.Height = 100;
+                    img.Source = dragonnetImage;
+                    rect.Width = 80;
+                    rect.Height = 80;
+                    break;
+                case "Boss":
+                    img.Width = 275;
+                    img.Height = 275;
+                    img.Source = bossImage;
+                    rect.Width = 250;
+                    rect.Height = 250;
+                    break;
+                default:
+                    img.Width = 50;
+                    img.Height = 50;
+                    rect.Width = 30;
+                    rect.Height = 30;
+                    break;
+            }
+        }
+
+        private void PlaceMonsterOnMap(Monstre monstre, Image img, Rectangle rect, Random random)
+        {
+            double left, top;
+            bool collision;
+
+            do
+            {
+                left = random.Next(10, (int)(1010 - img.Width));
+                top = random.Next(10, (int)(690 - img.Height));
+
+                Canvas.SetLeft(img, left);
+                Canvas.SetTop(img, top);
+
+                Canvas.SetLeft(rect, left + (img.Width - rect.Width) / 2);
+                Canvas.SetTop(rect, top + (img.Height - rect.Height) / 2);
+
+                collision = false;
+
+                foreach (var pair in MonstreRectangles)
                 {
-                    left = random.Next(10, (int)(1010 - img.Width));
-                    top = random.Next(10, (int)(690 - img.Height));
+                    Rect existingMonsterRect = new Rect(Canvas.GetLeft(pair.Value.Item2), Canvas.GetTop(pair.Value.Item2), pair.Value.Item2.Width, pair.Value.Item2.Height);
+                    Rect newMonsterRect = new Rect(Canvas.GetLeft(rect), Canvas.GetTop(rect), rect.Width, rect.Height);
 
-                    Canvas.SetLeft(img, left);
-                    Canvas.SetTop(img, top);
-
-                    Canvas.SetLeft(rect, left + (img.Width - rect.Width) / 2);
-                    Canvas.SetTop(rect, top + (img.Height - rect.Height) / 2);
-
-                    collision = false;
-
-                    foreach (var pair in MonstreRectangles)
+                    if (existingMonsterRect.IntersectsWith(newMonsterRect))
                     {
-                        Rect existingMonsterRect = new Rect(Canvas.GetLeft(pair.Value.Item2), Canvas.GetTop(pair.Value.Item2), pair.Value.Item2.Width, pair.Value.Item2.Height);
+                        collision = true;
+                        break;
+                    }
+                }
+
+                if (!collision)
+                {
+                    foreach (var buisson in Buissons)
+                    {
+                        Rect buissonRect = new Rect(Canvas.GetLeft(buisson), Canvas.GetTop(buisson), buisson.Width, buisson.Height);
                         Rect newMonsterRect = new Rect(Canvas.GetLeft(rect), Canvas.GetTop(rect), rect.Width, rect.Height);
 
-                        if (existingMonsterRect.IntersectsWith(newMonsterRect))
+                        if (buissonRect.IntersectsWith(newMonsterRect))
                         {
                             collision = true;
                             break;
                         }
                     }
+                }
 
-                    if (!collision)
+                if (!collision)
+                {
+                    Rect shopRect = new Rect(Canvas.GetLeft(Shop), Canvas.GetTop(Shop), Shop.Width, Shop.Height);
+                    Rect newMonsterRect = new Rect(Canvas.GetLeft(rect), Canvas.GetTop(rect), rect.Width, rect.Height);
+
+                    if (shopRect.IntersectsWith(newMonsterRect))
                     {
-                        foreach (var buisson in Buissons)
-                        {
-                            Rect buissonRect = new Rect(Canvas.GetLeft(buisson), Canvas.GetTop(buisson), buisson.Width, buisson.Height);
-                            Rect newMonsterRect = new Rect(Canvas.GetLeft(rect), Canvas.GetTop(rect), rect.Width, rect.Height);
-
-                            if (buissonRect.IntersectsWith(newMonsterRect))
-                            {
-                                collision = true;
-                                break;
-                            }
-                        }
+                        collision = true;
                     }
+                }
+            } while (collision);
 
-                    if (!collision)
-                    {
-                        Rect shopRect = new Rect(Canvas.GetLeft(Shop), Canvas.GetTop(Shop), Shop.Width, Shop.Height);
-                        Rect newMonsterRect = new Rect(Canvas.GetLeft(rect), Canvas.GetTop(rect), rect.Width, rect.Height);
+            Canvas.SetZIndex(img, 2);
+            Canvas.SetZIndex(rect, 1);
 
-                        if (shopRect.IntersectsWith(newMonsterRect))
-                        {
-                            collision = true;
-                        }
-                    }
-                } while (collision);
+            Map.Children.Add(rect);
+            Map.Children.Add(img);
 
-                Canvas.SetZIndex(img, 2);
-                Canvas.SetZIndex(rect, 1);
-
-                Map.Children.Add(rect);
-                Map.Children.Add(img);
-
-                MonstreRectangles[monst] = (img, rect);
-            }
+            MonstreRectangles[monstre] = (img, rect);
         }
 
         private bool CollisionMonstre(double newX, double newY)
@@ -257,23 +349,24 @@ namespace HeroesVSMonsters
             }
             return false;
         }
+
         #endregion
 
         #region COLLISION
-        private bool EnCollision(FrameworkElement a, FrameworkElement b)
-        {
-            double aLeft = Canvas.GetLeft(a);
-            double aTop = Canvas.GetTop(a);
-            double aRight = aLeft + a.Width;
-            double aBottom = aTop + a.Height;
+        //private bool EnCollision(FrameworkElement a, FrameworkElement b)
+        //{
+        //    double aLeft = Canvas.GetLeft(a);
+        //    double aTop = Canvas.GetTop(a);
+        //    double aRight = aLeft + a.Width;
+        //    double aBottom = aTop + a.Height;
 
-            double bLeft = Canvas.GetLeft(b);
-            double bTop = Canvas.GetTop(b);
-            double bRight = bLeft + b.Width;
-            double bBottom = bTop + b.Height;
+        //    double bLeft = Canvas.GetLeft(b);
+        //    double bTop = Canvas.GetTop(b);
+        //    double bRight = bLeft + b.Width;
+        //    double bBottom = bTop + b.Height;
 
-            return (aLeft < bRight && aRight > bLeft && aTop < bBottom && aBottom > bTop);
-        }
+        //    return (aLeft < bRight && aRight > bLeft && aTop < bBottom && aBottom > bTop);
+        //}
 
         private bool Collision(double newX, double newY)
         {
@@ -293,24 +386,45 @@ namespace HeroesVSMonsters
             double newX = Canvas.GetLeft(Player);
             double newY = Canvas.GetTop(Player);
 
-            if (stop == false)
+            #region ImageVisible
+            if (e.Key == Key.Space && GoldImage.IsVisible)
+            {
+                Hero.Pdv += 0;
+                GoldImage.Hide();
+                isPaused = false;
+            }
+            if (e.Key == Key.Space && CuirImage.IsVisible)
+            {
+                Hero.Pdv += 0;
+                CuirImage.Hide();
+                isPaused = false;
+            }
+            if (e.Key == Key.Space && VieImage.IsVisible)
+            {
+                Hero.Pdv += 0;
+                VieImage.Hide();
+                isPaused = false;
+            }
+            #endregion
+
+            if (!isPaused)
             {
                 switch (e.Key)
                 {
                     case Key.Up:
-                        newY -= 5;
+                        newY -= 6;
                         Player.Source = playerUpSteps[animationIndex];
                         break;
                     case Key.Down:
-                        newY += 5;
+                        newY += 6;
                         Player.Source = playerDownSteps[animationIndex];
                         break;
                     case Key.Left:
-                        newX -= 5;
+                        newX -= 6;
                         Player.Source = playerLeftSteps[animationIndex];
                         break;
                     case Key.Right:
-                        newX += 5;
+                        newX += 6;
                         Player.Source = playerRightSteps[animationIndex];
                         break;
                 }
@@ -319,30 +433,11 @@ namespace HeroesVSMonsters
             {
                 Player.Source = playerIdle;
             }
-            
-            #region ImageVisible
-            if (e.Key == Key.Space && GoldImage.IsVisible)
-            {
-                Hero.Pdv += 0;
-                GoldImage.Hide();
-                stop = false;
-            }
-            if (e.Key == Key.Space && CuirImage.IsVisible)
-            {
-                Hero.Pdv += 0;
-                CuirImage.Hide();
-                stop = false;
-            }
-            if (e.Key == Key.Space && VieImage.IsVisible)
-            {
-                Hero.Pdv += 0;
-                VieImage.Hide();
-                stop = false;
-            }
-            #endregion
 
-            if (!Collision(newX, newY))
-            {
+            
+
+            if(!Collision(newX, newY))
+    {
                 if (!CollisionMonstre(newX, newY))
                 {
                     if (!CheckCollisionWithBuissons(newX, newY))
@@ -363,35 +458,37 @@ namespace HeroesVSMonsters
 
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
-            Player.Source = playerIdle;
+            if (!isPaused)
+            {
+                Player.Source = playerIdle;
+            }
         }
         #endregion
 
         #region LEVEL
         private void CheckLevel()
         {
-            if (MonstreRectangles.Count == 0)
+
+            if (CurrentLevel < 4)
             {
-                CurrentLevel++;
-                Achat = 2;
-                CreationMontres(CurrentLevel);
-                MessageBox.Show($"Bienvenue au niveau {CurrentLevel}!");
-                if (CurrentLevel < 3)
+                if (MonstreRectangles.Count == 0)
                 {
-                    Hero.Gold += 10 + CurrentLevel;
-                    Hero.Cuir += 10 + CurrentLevel;
-                    Hero.Pdv += CurrentLevel * 25;
-                }
-                else if (CurrentLevel > 3 && CurrentLevel < 6)
-                {
-                    Hero.Gold += 15 + CurrentLevel;
-                    Hero.Cuir += 15 + CurrentLevel;
-                }
-                else if (CurrentLevel > 6 && CurrentLevel < 9)
-                {
-                    Hero.Gold += 20 + CurrentLevel;
-                    Hero.Cuir += 20 + CurrentLevel;
-                    Hero.Pdv += CurrentLevel * 10;
+                    CurrentLevel++;
+                    Achat = 2;
+                    CreationMontres(CurrentLevel);
+                    MessageBox.Show($"Bienvenue au niveau {CurrentLevel}!");
+                    if (CurrentLevel <= 3)
+                    {
+                        Hero.Gold += 10 + CurrentLevel;
+                        Hero.Cuir += 10 + CurrentLevel;
+                        Hero.Pdv += CurrentLevel * 25;
+                    }
+                    else if (CurrentLevel == 4)
+                    {
+                        Hero.Gold += 1000;
+                        Hero.Cuir += 1000;
+                        Hero.Pdv += 500;
+                    }
                 }
             }
         }
@@ -401,14 +498,15 @@ namespace HeroesVSMonsters
         public bool ShopCollision(double newX, double newY)
         {
             Rect playerRect = new Rect(newX, newY, Player.Width, Player.Height);
-
             Rect shopRect = new Rect(10, 5, 105, 60);
+            ShopWindow Shop = new ShopWindow(Hero, CurrentLevel, Achat);
 
             if (playerRect.IntersectsWith(shopRect))
             {
+                isPaused = true;
                 Hero.Pdv += 0;
-                ShopWindow Shop = new ShopWindow(Hero, CurrentLevel, Achat);
-                Shop.Show();
+                Shop.ShowDialog(); //Modal
+                isPaused = false;
                 return true;
             }
             return false;
@@ -428,6 +526,28 @@ namespace HeroesVSMonsters
             foreach (var buisson in Buissons)
             {
                 Map.Children.Add(buisson);
+            }
+        }
+
+        private void CheckAllBuissonsTraversed()
+        {
+            if (buissonsTraverses >= 6)
+            {
+                ActiverEasterEgg();
+            }
+        }
+
+        private void ActiverEasterEgg()
+        {
+            if (countMessage == 0) 
+            { 
+                isPaused = true;
+                countMessage = 1;
+                MessageBox.Show("Un pouvoir vous submerge, vous devenez invincible!");
+                isPaused = false;
+                Hero.For = 25000;
+                Hero.End = 25000;
+                Hero.Pdv = 25000;
             }
         }
 
@@ -456,23 +576,25 @@ namespace HeroesVSMonsters
             foreach (var buisson in Buissons.Where(b => b.IsEnabled))
             {
                 Rect buissonRect = new Rect(Canvas.GetLeft(buisson), Canvas.GetTop(buisson), buisson.Width, buisson.Height);
-                if (playerRect.IntersectsWith(buissonRect))
+                if (playerRect.IntersectsWith(buissonRect)) // IntersectsWith => utilisée pour déterminer si deux rectangles se chevauchent ou s'intersectent
                 {
                     Hero.Pdv += 0;
                     Random random = new Random();
                     int chance = random.Next(1, 101);
-                    if (chance < 15)
+                    if (chance < 30)
                     {
                         RecevoirObjet();
+                        isPaused = true;
+
                         return true;
                     }
-                    else if (chance > 5)
+                    else if (chance > 30)
                     {
                         buisson.IsEnabled = false;
-                        Task.Run(() =>
+                        Task.Run(() => // Lance une tâche en arrière plan de manière asynchrone
                         {
-                            Thread.Sleep(1000);
-                            Dispatcher.Invoke(() =>
+                            Thread.Sleep(1000); // met le thread actuel en pause
+                            Dispatcher.Invoke(() => // exécuter une action sur le thread de l'interface utilisateur
                             {
                                 buisson.IsEnabled = true;
                             });
@@ -487,69 +609,82 @@ namespace HeroesVSMonsters
         {
             Random random = new Random();
             int chance = random.Next(1, 101);
+
             if (chance < 33)
             {
                 Hero.Gold += 5;
-                stop = true;
                 GoldImage.Show();
             }
             else if (chance >= 33 && chance < 66)
             {
                 Hero.Cuir += 5;
-                stop = true;
                 CuirImage.Show();
             }
             else if (chance >= 66)
             {
-                Hero.Pdv += 20; 
-                stop = true;
+                Hero.Pdv += 20;
                 VieImage.Show();
             }
+
+            buissonsTraverses++;
+            CheckAllBuissonsTraversed();
         }
         #endregion
 
         #region COMBAT
         private void StartCombat(Heros hero, Monstre monstre)
         {
+            isPaused = true;
+
             MessageBox.Show($"Combat lancé entre {hero.Name} et {monstre.Race}!\nPoint de vie : {monstre.Pdv}\nForce : {monstre.For}\nEndurence : {monstre.End}");
 
-            while (monstre.Pdv > 0)
+            while (monstre.Pdv > 0 && hero.Pdv > 0)
             {
-                Hero.Frapper(monstre);
-                monstre.Frapper(Hero);
+                hero.Frapper(monstre);
+                if (monstre.Pdv > 0)
+                {
+                    monstre.Frapper(hero);
+                }
+
+                if (hero.Pdv <= 0)
+                {
+                    MessageBox.Show($"Game Over");
+                    Application.Current.Shutdown(); 
+                    return;
+                }
             }
-            monstre.Pdv = 0;
-            if (monstre.Pdv == 0)
+
+            if (monstre.Pdv <= 0)
             {
+                monstre.Pdv = 0;
                 MortMonstre(monstre);
                 Random random = new Random();
                 int chance = random.Next(1, 101);
                 if (chance <= 25)
                 {
-                    Hero.Pdv += 35;
+                    hero.Pdv += 35;
                     MessageBox.Show($"Tu as été soigné de 35hp.");
                 }
                 else if (chance > 25 && chance <= 50)
                 {
-                    Hero.Pdv += 25;
+                    hero.Pdv += 25;
                     MessageBox.Show($"Tu as été soigné de 25hp.");
                 }
                 else
                 {
-                    Hero.Pdv += 15;
+                    hero.Pdv += 15;
                     MessageBox.Show($"Tu as été soigné de 15hp.");
                 }
                 CheckLevel();
             }
-            else if (Hero.Pdv <= 0)
-            {
-                MessageBox.Show($"GAME OVER");
-            }
-            Hero.RecevoirRessourcesDe(monstre);
-            Hero.Pdv += 0;
+
+            hero.RecevoirRessourcesDe(monstre);
+            isPaused = false;
         }
         #endregion
 
         #endregion
     }
+
+
 }

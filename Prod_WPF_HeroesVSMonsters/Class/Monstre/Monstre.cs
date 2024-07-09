@@ -51,3 +51,4 @@ namespace Heroes_VS_Monsters.Class.Monstre
         #endregion
     }
 }
+

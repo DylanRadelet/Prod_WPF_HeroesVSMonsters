@@ -53,7 +53,7 @@ namespace Prod_WPF_HeroesVSMonsters
             if (_hero.Gold >= Prix && _achat > 0)
             {
                 _hero.Gold -= Prix;
-                _hero.Pdv += 30;
+                _hero.Pdv += 30 + (_level * 5);
                 _hero.Pdv += 0;
                 _achat -= 1;
             }
@@ -68,7 +68,7 @@ namespace Prod_WPF_HeroesVSMonsters
             if (_hero.Cuir >= Prix && _achat > 0)
             {
                 _hero.Cuir -= Prix;
-                _hero.For += 1;
+                _hero.For += 1 + _level;
                 _hero.Pdv += 0;
                 _achat -= 1;
             }
@@ -83,7 +83,7 @@ namespace Prod_WPF_HeroesVSMonsters
             if (_hero.Gold >= Prix && _achat > 0)
             {
                 _hero.Gold -= Prix;
-                _hero.End += 1;
+                _hero.End += 1 + _level;
                 _hero.Pdv += 0;
                 _achat -= 1;
             }

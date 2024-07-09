@@ -20,9 +20,7 @@ namespace Heroes_VS_Monsters.Class
         public int Cuir { get; set; }
         public double Position { get; set; }
         #endregion
-
-
-
+        
         #region Constructor
         public Charactere(int @for, int end, double pdv, double position, int gold, int cuir)
         {
@@ -34,8 +32,6 @@ namespace Heroes_VS_Monsters.Class
             Cuir = cuir;
         }
         #endregion
-
-
 
         #region  Properties
         public virtual double BonusFor => 0;
@@ -55,8 +51,6 @@ namespace Heroes_VS_Monsters.Class
             }
         }
         #endregion
-
-
 
         #region  Fonctions
         public void RecevoirDegats(int degats)

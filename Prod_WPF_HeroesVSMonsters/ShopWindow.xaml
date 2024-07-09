@@ -6,17 +6,32 @@
         xmlns:local="clr-namespace:Prod_WPF_HeroesVSMonsters"
         mc:Ignorable="d"
         Title="ShopWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <FontFamily x:Key="CustomFont">pack://application:,,,/Prod_WPF_HeroesVSMonsters;component/fonts/#Balgruf</FontFamily>
+    </Window.Resources>
+
     <Grid>
-        <TextBox TextAlignment="Center" HorizontalAlignment="Left" Margin="106,179,0,0" TextWrapping="Wrap" Text="Point de vie" VerticalAlignment="Top" Width="80"/>
-        <Button Click="AchatVie" Content="Acheter" HorizontalAlignment="Left" Margin="124,214,0,0" VerticalAlignment="Top"/>
-        <Label Content="{Binding Prix}" HorizontalAlignment="Left" Margin="124,250,0,0" VerticalAlignment="Top" Width="45"/>
+        <Grid.Background>
+            <ImageBrush ImageSource="C:\Users\Student\source\repos\Prod_WPF_HeroesVSMonsters\Prod_WPF_HeroesVSMonsters\img\Fond_0.png"/>
+        </Grid.Background>
 
-        <TextBox TextAlignment="Center" HorizontalAlignment="Center" Margin="0,179,0,0" TextWrapping="Wrap" Text="Force" VerticalAlignment="Top" Width="80" TextChanged="TextBox_TextChanged"/>
-        <Button Click="AchatForce" Content="Acheter" HorizontalAlignment="Center" Margin="0,214,0,0" VerticalAlignment="Top"/>
-        <Label Content="{Binding Prix}" HorizontalAlignment="Left" Margin="595,255,0,0" VerticalAlignment="Top" Width="46"/>
+        <Image HorizontalAlignment="Left" Source="C:\Users\Student\source\repos\Prod_WPF_HeroesVSMonsters\Prod_WPF_HeroesVSMonsters\img\PointDeVie.png" Height="150" Margin="102,86,0,0" VerticalAlignment="Top" Width="88"/>
+        <TextBlock HorizontalAlignment="Left" Margin="99,247,0,0" TextWrapping="Wrap" FontSize="18" Text="Point de vie" Foreground="#ffffff" FontFamily="{StaticResource CustomFont}" VerticalAlignment="Top"/>
+        <Button Click="AchatVie" Content="Acheter" HorizontalAlignment="Left" Margin="124,283,0,0" VerticalAlignment="Top"/>
+        <TextBlock FontSize="18" HorizontalAlignment="Left" Margin="132,311,0,0" Foreground="#ffffff" FontFamily="{StaticResource CustomFont}" TextWrapping="Wrap" Text="Gold" VerticalAlignment="Top"/>
+        <Label FontSize="18" Content="{Binding Prix}" HorizontalAlignment="Left" Foreground="#ffffff" FontFamily="{StaticResource CustomFont}" Margin="107,303,0,0" VerticalAlignment="Top" Width="45" Height="34" />
 
-        <TextBox TextAlignment="Center" HorizontalAlignment="Left" Margin="578,179,0,0" TextWrapping="Wrap" Text="Endurance" VerticalAlignment="Top" Width="80" TextChanged="TextBox_TextChanged_1"/>
-        <Button Click="AchatEndurance" Content="Acheter" HorizontalAlignment="Left" Margin="595,214,0,0" VerticalAlignment="Top"/>
-        <Label Content="{Binding Prix}" HorizontalAlignment="Center" Margin="0,255,0,0" VerticalAlignment="Top" Width="44"/>
+        <Image HorizontalAlignment="Center" Source="C:\Users\Student\source\repos\Prod_WPF_HeroesVSMonsters\Prod_WPF_HeroesVSMonsters\img\PointDeVie.png" Height="150" Margin="0,86,0,0" VerticalAlignment="Top" Width="88"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,247,0,0" TextWrapping="Wrap" FontSize="18" Text="Force" Foreground="#ffffff" FontFamily="{StaticResource CustomFont}" VerticalAlignment="Top"/>
+        <Button Click="AchatForce" Content="Acheter" HorizontalAlignment="Center" Margin="0,283,0,0" VerticalAlignment="Top"/>
+        <TextBlock FontSize="18" HorizontalAlignment="Left" Margin="388,311,0,0" Foreground="#ffffff" FontFamily="{StaticResource CustomFont}" TextWrapping="Wrap" Text="Cuirs" VerticalAlignment="Top" Width="46"/>
+
+        <Image HorizontalAlignment="Left" Source="C:\Users\Student\source\repos\Prod_WPF_HeroesVSMonsters\Prod_WPF_HeroesVSMonsters\img\PointDeVie.png" Height="150" Margin="573,86,0,0" VerticalAlignment="Top" Width="88"/>
+        <TextBlock HorizontalAlignment="Left" Margin="578,247,0,0" TextWrapping="Wrap" FontSize="18" Text="Endurance" Foreground="#ffffff" FontFamily="{StaticResource CustomFont}" VerticalAlignment="Top"/>
+        <Button Click="AchatEndurance" Content="Acheter" HorizontalAlignment="Left" Margin="595,283,0,0" VerticalAlignment="Top"/>
+        <TextBlock FontSize="18" HorizontalAlignment="Left" Margin="604,311,0,0" Foreground="#ffffff" FontFamily="{StaticResource CustomFont}" TextWrapping="Wrap" Text="Gold" VerticalAlignment="Top"/>
+        <Label FontSize="18" Content="{Binding Prix}" HorizontalAlignment="Left" Foreground="#ffffff" FontFamily="{StaticResource CustomFont}" Margin="363,303,0,0" VerticalAlignment="Top" Width="45" Height="34" />
+        <Label FontSize="18" Content="{Binding Prix}" HorizontalAlignment="Left" Foreground="#ffffff" FontFamily="{StaticResource CustomFont}" Margin="578,303,0,0" VerticalAlignment="Top" Width="45" Height="34" />
     </Grid>
 </Window>
